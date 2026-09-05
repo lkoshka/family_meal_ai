@@ -7,5 +7,203 @@
     "fatPer100g": 3.6,
     "carbsPer100g": 0,
     "gramsPerMl": null
+  },
+  {
+    "name": "Куриное филе",
+    "state": "raw",
+    "caloriesPer100g": 165,
+    "proteinPer100g": 31,
+    "fatPer100g": 3.6,
+    "carbsPer100g": 0,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Курица",
+    "state": "raw",
+    "caloriesPer100g": 165,
+    "proteinPer100g": 31,
+    "fatPer100g": 3.6,
+    "carbsPer100g": 0,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Филе индейки",
+    "state": "raw",
+    "caloriesPer100g": 135,
+    "proteinPer100g": 29,
+    "fatPer100g": 1.6,
+    "carbsPer100g": 0,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Лосось",
+    "state": "raw",
+    "caloriesPer100g": 208,
+    "proteinPer100g": 20,
+    "fatPer100g": 13,
+    "carbsPer100g": 0,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Филе белой рыбы",
+    "state": "raw",
+    "caloriesPer100g": 100,
+    "proteinPer100g": 22,
+    "fatPer100g": 1.5,
+    "carbsPer100g": 0,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Говядина",
+    "state": "raw",
+    "caloriesPer100g": 187,
+    "proteinPer100g": 26,
+    "fatPer100g": 9,
+    "carbsPer100g": 0,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Рис",
+    "state": "dry",
+    "caloriesPer100g": 360,
+    "proteinPer100g": 7,
+    "fatPer100g": 0.7,
+    "carbsPer100g": 79,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Гречка",
+    "state": "dry",
+    "caloriesPer100g": 343,
+    "proteinPer100g": 13,
+    "fatPer100g": 3.4,
+    "carbsPer100g": 72,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Кускус",
+    "state": "dry",
+    "caloriesPer100g": 376,
+    "proteinPer100g": 12.8,
+    "fatPer100g": 0.6,
+    "carbsPer100g": 77.4,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Чечевица",
+    "state": "dry",
+    "caloriesPer100g": 353,
+    "proteinPer100g": 25,
+    "fatPer100g": 1.1,
+    "carbsPer100g": 60,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Паста",
+    "state": "dry",
+    "caloriesPer100g": 350,
+    "proteinPer100g": 12,
+    "fatPer100g": 1.5,
+    "carbsPer100g": 72,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Картофель",
+    "state": "raw",
+    "caloriesPer100g": 77,
+    "proteinPer100g": 2,
+    "fatPer100g": 0.1,
+    "carbsPer100g": 17.5,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Морковь",
+    "state": "raw",
+    "caloriesPer100g": 41,
+    "proteinPer100g": 0.9,
+    "fatPer100g": 0.2,
+    "carbsPer100g": 9.6,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Лук",
+    "state": "raw",
+    "caloriesPer100g": 40,
+    "proteinPer100g": 1.1,
+    "fatPer100g": 0.1,
+    "carbsPer100g": 9.3,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Кабачок",
+    "state": "raw",
+    "caloriesPer100g": 17,
+    "proteinPer100g": 1.2,
+    "fatPer100g": 0.3,
+    "carbsPer100g": 3.1,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Брокколи",
+    "state": "raw",
+    "caloriesPer100g": 34,
+    "proteinPer100g": 2.8,
+    "fatPer100g": 0.4,
+    "carbsPer100g": 6.6,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Перец",
+    "state": "raw",
+    "caloriesPer100g": 31,
+    "proteinPer100g": 1,
+    "fatPer100g": 0.3,
+    "carbsPer100g": 6,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Баклажан",
+    "state": "raw",
+    "caloriesPer100g": 25,
+    "proteinPer100g": 1,
+    "fatPer100g": 0.2,
+    "carbsPer100g": 6,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Томаты",
+    "state": "raw",
+    "caloriesPer100g": 18,
+    "proteinPer100g": 0.9,
+    "fatPer100g": 0.2,
+    "carbsPer100g": 3.9,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Томатный соус",
+    "state": "raw",
+    "caloriesPer100g": 35,
+    "proteinPer100g": 1.5,
+    "fatPer100g": 0.2,
+    "carbsPer100g": 7,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Пармезан",
+    "state": "asSold",
+    "caloriesPer100g": 431,
+    "proteinPer100g": 38,
+    "fatPer100g": 29,
+    "carbsPer100g": 4.1,
+    "gramsPerMl": null
+  },
+  {
+    "name": "Оливковое масло",
+    "state": "asSold",
+    "caloriesPer100g": 884,
+    "proteinPer100g": 0,
+    "fatPer100g": 100,
+    "carbsPer100g": 0,
+    "gramsPerMl": 0.91
   }
 ]

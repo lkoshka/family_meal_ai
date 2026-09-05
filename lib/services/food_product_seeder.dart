@@ -1,25 +1,35 @@
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
+
 import '../database/app_database.dart';
-import 'ingredient_nutrition_catalog.dart';
 
 class FoodProductSeeder {
   static Future<void> seedIfNeeded(AppDatabase database) async {
-    for (final entry in IngredientNutritionCatalog.products.entries) {
-      final existing = await database.getFoodProductByName(entry.key);
+    final jsonString = await rootBundle.loadString(
+      'assets/data/food_products.json',
+    );
+
+    final List<dynamic> products = jsonDecode(jsonString);
+
+    for (final item in products) {
+      final product = item as Map<String, dynamic>;
+      final name = product['name'] as String;
+
+      final existing = await database.getFoodProductByName(name);
 
       if (existing != null) {
         continue;
       }
 
-      final nutrition = entry.value;
-
       await database.addFoodProduct(
-        name: entry.key,
-        state: nutrition.state.name,
-        caloriesPer100g: nutrition.caloriesPer100g,
-        proteinPer100g: nutrition.proteinPer100g,
-        fatPer100g: nutrition.fatPer100g,
-        carbsPer100g: nutrition.carbsPer100g,
-        gramsPerMl: nutrition.gramsPerMl,
+        name: name,
+        state: product['state'] as String,
+        caloriesPer100g: (product['caloriesPer100g'] as num).toDouble(),
+        proteinPer100g: (product['proteinPer100g'] as num).toDouble(),
+        fatPer100g: (product['fatPer100g'] as num).toDouble(),
+        carbsPer100g: (product['carbsPer100g'] as num).toDouble(),
+        gramsPerMl: (product['gramsPerMl'] as num?)?.toDouble(),
       );
     }
   }
