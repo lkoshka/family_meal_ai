@@ -1608,6 +1608,18 @@ class $FoodProductsTable extends FoodProducts
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
   static const VerificationMeta _caloriesPer100gMeta = const VerificationMeta(
     'caloriesPer100g',
   );
@@ -1668,6 +1680,7 @@ class $FoodProductsTable extends FoodProducts
     id,
     name,
     state,
+    category,
     caloriesPer100g,
     proteinPer100g,
     fatPer100g,
@@ -1704,6 +1717,12 @@ class $FoodProductsTable extends FoodProducts
       );
     } else if (isInserting) {
       context.missing(_stateMeta);
+    }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
     }
     if (data.containsKey('calories_per100g')) {
       context.handle(
@@ -1776,6 +1795,10 @@ class $FoodProductsTable extends FoodProducts
         DriftSqlType.string,
         data['${effectivePrefix}state'],
       )!,
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
       caloriesPer100g: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}calories_per100g'],
@@ -1809,6 +1832,7 @@ class FoodProduct extends DataClass implements Insertable<FoodProduct> {
   final int id;
   final String name;
   final String state;
+  final String category;
   final double caloriesPer100g;
   final double proteinPer100g;
   final double fatPer100g;
@@ -1818,6 +1842,7 @@ class FoodProduct extends DataClass implements Insertable<FoodProduct> {
     required this.id,
     required this.name,
     required this.state,
+    required this.category,
     required this.caloriesPer100g,
     required this.proteinPer100g,
     required this.fatPer100g,
@@ -1830,6 +1855,7 @@ class FoodProduct extends DataClass implements Insertable<FoodProduct> {
     map['id'] = Variable<int>(id);
     map['name'] = Variable<String>(name);
     map['state'] = Variable<String>(state);
+    map['category'] = Variable<String>(category);
     map['calories_per100g'] = Variable<double>(caloriesPer100g);
     map['protein_per100g'] = Variable<double>(proteinPer100g);
     map['fat_per100g'] = Variable<double>(fatPer100g);
@@ -1845,6 +1871,7 @@ class FoodProduct extends DataClass implements Insertable<FoodProduct> {
       id: Value(id),
       name: Value(name),
       state: Value(state),
+      category: Value(category),
       caloriesPer100g: Value(caloriesPer100g),
       proteinPer100g: Value(proteinPer100g),
       fatPer100g: Value(fatPer100g),
@@ -1864,6 +1891,7 @@ class FoodProduct extends DataClass implements Insertable<FoodProduct> {
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       state: serializer.fromJson<String>(json['state']),
+      category: serializer.fromJson<String>(json['category']),
       caloriesPer100g: serializer.fromJson<double>(json['caloriesPer100g']),
       proteinPer100g: serializer.fromJson<double>(json['proteinPer100g']),
       fatPer100g: serializer.fromJson<double>(json['fatPer100g']),
@@ -1878,6 +1906,7 @@ class FoodProduct extends DataClass implements Insertable<FoodProduct> {
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'state': serializer.toJson<String>(state),
+      'category': serializer.toJson<String>(category),
       'caloriesPer100g': serializer.toJson<double>(caloriesPer100g),
       'proteinPer100g': serializer.toJson<double>(proteinPer100g),
       'fatPer100g': serializer.toJson<double>(fatPer100g),
@@ -1890,6 +1919,7 @@ class FoodProduct extends DataClass implements Insertable<FoodProduct> {
     int? id,
     String? name,
     String? state,
+    String? category,
     double? caloriesPer100g,
     double? proteinPer100g,
     double? fatPer100g,
@@ -1899,6 +1929,7 @@ class FoodProduct extends DataClass implements Insertable<FoodProduct> {
     id: id ?? this.id,
     name: name ?? this.name,
     state: state ?? this.state,
+    category: category ?? this.category,
     caloriesPer100g: caloriesPer100g ?? this.caloriesPer100g,
     proteinPer100g: proteinPer100g ?? this.proteinPer100g,
     fatPer100g: fatPer100g ?? this.fatPer100g,
@@ -1910,6 +1941,7 @@ class FoodProduct extends DataClass implements Insertable<FoodProduct> {
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       state: data.state.present ? data.state.value : this.state,
+      category: data.category.present ? data.category.value : this.category,
       caloriesPer100g: data.caloriesPer100g.present
           ? data.caloriesPer100g.value
           : this.caloriesPer100g,
@@ -1934,6 +1966,7 @@ class FoodProduct extends DataClass implements Insertable<FoodProduct> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('state: $state, ')
+          ..write('category: $category, ')
           ..write('caloriesPer100g: $caloriesPer100g, ')
           ..write('proteinPer100g: $proteinPer100g, ')
           ..write('fatPer100g: $fatPer100g, ')
@@ -1948,6 +1981,7 @@ class FoodProduct extends DataClass implements Insertable<FoodProduct> {
     id,
     name,
     state,
+    category,
     caloriesPer100g,
     proteinPer100g,
     fatPer100g,
@@ -1961,6 +1995,7 @@ class FoodProduct extends DataClass implements Insertable<FoodProduct> {
           other.id == this.id &&
           other.name == this.name &&
           other.state == this.state &&
+          other.category == this.category &&
           other.caloriesPer100g == this.caloriesPer100g &&
           other.proteinPer100g == this.proteinPer100g &&
           other.fatPer100g == this.fatPer100g &&
@@ -1972,6 +2007,7 @@ class FoodProductsCompanion extends UpdateCompanion<FoodProduct> {
   final Value<int> id;
   final Value<String> name;
   final Value<String> state;
+  final Value<String> category;
   final Value<double> caloriesPer100g;
   final Value<double> proteinPer100g;
   final Value<double> fatPer100g;
@@ -1981,6 +2017,7 @@ class FoodProductsCompanion extends UpdateCompanion<FoodProduct> {
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.state = const Value.absent(),
+    this.category = const Value.absent(),
     this.caloriesPer100g = const Value.absent(),
     this.proteinPer100g = const Value.absent(),
     this.fatPer100g = const Value.absent(),
@@ -1991,6 +2028,7 @@ class FoodProductsCompanion extends UpdateCompanion<FoodProduct> {
     this.id = const Value.absent(),
     required String name,
     required String state,
+    this.category = const Value.absent(),
     required double caloriesPer100g,
     required double proteinPer100g,
     required double fatPer100g,
@@ -2006,6 +2044,7 @@ class FoodProductsCompanion extends UpdateCompanion<FoodProduct> {
     Expression<int>? id,
     Expression<String>? name,
     Expression<String>? state,
+    Expression<String>? category,
     Expression<double>? caloriesPer100g,
     Expression<double>? proteinPer100g,
     Expression<double>? fatPer100g,
@@ -2016,6 +2055,7 @@ class FoodProductsCompanion extends UpdateCompanion<FoodProduct> {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (state != null) 'state': state,
+      if (category != null) 'category': category,
       if (caloriesPer100g != null) 'calories_per100g': caloriesPer100g,
       if (proteinPer100g != null) 'protein_per100g': proteinPer100g,
       if (fatPer100g != null) 'fat_per100g': fatPer100g,
@@ -2028,6 +2068,7 @@ class FoodProductsCompanion extends UpdateCompanion<FoodProduct> {
     Value<int>? id,
     Value<String>? name,
     Value<String>? state,
+    Value<String>? category,
     Value<double>? caloriesPer100g,
     Value<double>? proteinPer100g,
     Value<double>? fatPer100g,
@@ -2038,6 +2079,7 @@ class FoodProductsCompanion extends UpdateCompanion<FoodProduct> {
       id: id ?? this.id,
       name: name ?? this.name,
       state: state ?? this.state,
+      category: category ?? this.category,
       caloriesPer100g: caloriesPer100g ?? this.caloriesPer100g,
       proteinPer100g: proteinPer100g ?? this.proteinPer100g,
       fatPer100g: fatPer100g ?? this.fatPer100g,
@@ -2057,6 +2099,9 @@ class FoodProductsCompanion extends UpdateCompanion<FoodProduct> {
     }
     if (state.present) {
       map['state'] = Variable<String>(state.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
     }
     if (caloriesPer100g.present) {
       map['calories_per100g'] = Variable<double>(caloriesPer100g.value);
@@ -2082,6 +2127,7 @@ class FoodProductsCompanion extends UpdateCompanion<FoodProduct> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('state: $state, ')
+          ..write('category: $category, ')
           ..write('caloriesPer100g: $caloriesPer100g, ')
           ..write('proteinPer100g: $proteinPer100g, ')
           ..write('fatPer100g: $fatPer100g, ')
@@ -4294,6 +4340,7 @@ typedef $$FoodProductsTableCreateCompanionBuilder =
       Value<int> id,
       required String name,
       required String state,
+      Value<String> category,
       required double caloriesPer100g,
       required double proteinPer100g,
       required double fatPer100g,
@@ -4305,6 +4352,7 @@ typedef $$FoodProductsTableUpdateCompanionBuilder =
       Value<int> id,
       Value<String> name,
       Value<String> state,
+      Value<String> category,
       Value<double> caloriesPer100g,
       Value<double> proteinPer100g,
       Value<double> fatPer100g,
@@ -4333,6 +4381,11 @@ class $$FoodProductsTableFilterComposer
 
   ColumnFilters<String> get state => $composableBuilder(
     column: $table.state,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get category => $composableBuilder(
+    column: $table.category,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -4386,6 +4439,11 @@ class $$FoodProductsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<double> get caloriesPer100g => $composableBuilder(
     column: $table.caloriesPer100g,
     builder: (column) => ColumnOrderings(column),
@@ -4429,6 +4487,9 @@ class $$FoodProductsTableAnnotationComposer
 
   GeneratedColumn<String> get state =>
       $composableBuilder(column: $table.state, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
 
   GeneratedColumn<double> get caloriesPer100g => $composableBuilder(
     column: $table.caloriesPer100g,
@@ -4490,6 +4551,7 @@ class $$FoodProductsTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<String> state = const Value.absent(),
+                Value<String> category = const Value.absent(),
                 Value<double> caloriesPer100g = const Value.absent(),
                 Value<double> proteinPer100g = const Value.absent(),
                 Value<double> fatPer100g = const Value.absent(),
@@ -4499,6 +4561,7 @@ class $$FoodProductsTableTableManager
                 id: id,
                 name: name,
                 state: state,
+                category: category,
                 caloriesPer100g: caloriesPer100g,
                 proteinPer100g: proteinPer100g,
                 fatPer100g: fatPer100g,
@@ -4510,6 +4573,7 @@ class $$FoodProductsTableTableManager
                 Value<int> id = const Value.absent(),
                 required String name,
                 required String state,
+                Value<String> category = const Value.absent(),
                 required double caloriesPer100g,
                 required double proteinPer100g,
                 required double fatPer100g,
@@ -4519,6 +4583,7 @@ class $$FoodProductsTableTableManager
                 id: id,
                 name: name,
                 state: state,
+                category: category,
                 caloriesPer100g: caloriesPer100g,
                 proteinPer100g: proteinPer100g,
                 fatPer100g: fatPer100g,

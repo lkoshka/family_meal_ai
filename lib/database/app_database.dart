@@ -65,6 +65,8 @@ class FoodProducts extends Table {
 
   TextColumn get state => text()();
 
+  TextColumn get category => text().withDefault(const Constant(''))();
+
   RealColumn get caloriesPer100g => real()();
 
   RealColumn get proteinPer100g => real()();
@@ -143,7 +145,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase._internal() : super(_openConnection());
 
   @override
-  int get schemaVersion => 9;
+  int get schemaVersion => 10;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -193,6 +195,10 @@ class AppDatabase extends _$AppDatabase {
       if (from < 9) {
         await m.createTable(foodProducts);
       }
+
+      if (from < 10) {
+        await m.addColumn(foodProducts, foodProducts.category);
+      }
     },
   );
 
@@ -209,6 +215,7 @@ class AppDatabase extends _$AppDatabase {
   Future<int> addFoodProduct({
     required String name,
     required String state,
+    required String category,
     required double caloriesPer100g,
     required double proteinPer100g,
     required double fatPer100g,
@@ -219,11 +226,23 @@ class AppDatabase extends _$AppDatabase {
       FoodProductsCompanion.insert(
         name: name,
         state: state,
+        category: Value(category),
         caloriesPer100g: caloriesPer100g,
         proteinPer100g: proteinPer100g,
         fatPer100g: fatPer100g,
         carbsPer100g: carbsPer100g,
         gramsPerMl: Value(gramsPerMl),
+      ),
+    );
+  }
+
+  Future<int> updateFoodProductCategory({
+    required int id,
+    required String category,
+  }) {
+    return (update(foodProducts)..where((table) => table.id.equals(id))).write(
+      FoodProductsCompanion(
+        category: Value(category),
       ),
     );
   }
