@@ -67,6 +67,10 @@ class FoodProducts extends Table {
 
   TextColumn get category => text().withDefault(const Constant(''))();
 
+  TextColumn get source => text().withDefault(const Constant(''))();
+
+  TextColumn get sourceId => text().nullable()();
+
   RealColumn get caloriesPer100g => real()();
 
   RealColumn get proteinPer100g => real()();
@@ -145,7 +149,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase._internal() : super(_openConnection());
 
   @override
-  int get schemaVersion => 10;
+  int get schemaVersion => 12;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -198,6 +202,14 @@ class AppDatabase extends _$AppDatabase {
 
       if (from < 10) {
         await m.addColumn(foodProducts, foodProducts.category);
+      }
+
+      if (from < 11) {
+        await m.addColumn(foodProducts, foodProducts.source);
+      }
+
+      if (from < 12) {
+        await m.addColumn(foodProducts, foodProducts.sourceId);
       }
     },
   );
