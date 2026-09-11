@@ -228,6 +228,8 @@ class AppDatabase extends _$AppDatabase {
     required String name,
     required String state,
     required String category,
+    required String source,
+    String? sourceId,
     required double caloriesPer100g,
     required double proteinPer100g,
     required double fatPer100g,
@@ -239,6 +241,8 @@ class AppDatabase extends _$AppDatabase {
         name: name,
         state: state,
         category: Value(category),
+        source: Value(source),
+        sourceId: Value(sourceId),
         caloriesPer100g: caloriesPer100g,
         proteinPer100g: proteinPer100g,
         fatPer100g: fatPer100g,
@@ -248,13 +252,29 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
-  Future<int> updateFoodProductCategory({
+  Future<int> updateFoodProduct({
     required int id,
+    required String state,
     required String category,
+    required String source,
+    String? sourceId,
+    required double caloriesPer100g,
+    required double proteinPer100g,
+    required double fatPer100g,
+    required double carbsPer100g,
+    double? gramsPerMl,
   }) {
     return (update(foodProducts)..where((table) => table.id.equals(id))).write(
       FoodProductsCompanion(
+        state: Value(state),
         category: Value(category),
+        source: Value(source),
+        sourceId: Value(sourceId),
+        caloriesPer100g: Value(caloriesPer100g),
+        proteinPer100g: Value(proteinPer100g),
+        fatPer100g: Value(fatPer100g),
+        carbsPer100g: Value(carbsPer100g),
+        gramsPerMl: Value(gramsPerMl),
       ),
     );
   }

@@ -19,9 +19,17 @@ class FoodProductSeeder {
       final existing = await database.getFoodProductByName(name);
 
       if (existing != null) {
-        await database.updateFoodProductCategory(
+        await database.updateFoodProduct(
           id: existing.id,
+          state: product['state'] as String,
           category: product['category'] as String,
+          source: product['source'] as String,
+          sourceId: product['sourceId'] as String?,
+          caloriesPer100g: (product['caloriesPer100g'] as num).toDouble(),
+          proteinPer100g: (product['proteinPer100g'] as num).toDouble(),
+          fatPer100g: (product['fatPer100g'] as num).toDouble(),
+          carbsPer100g: (product['carbsPer100g'] as num).toDouble(),
+          gramsPerMl: (product['gramsPerMl'] as num?)?.toDouble(),
         );
         continue;
       }
@@ -30,6 +38,8 @@ class FoodProductSeeder {
         name: name,
         state: product['state'] as String,
         category: product['category'] as String,
+        source: product['source'] as String,
+        sourceId: product['sourceId'] as String?,
         caloriesPer100g: (product['caloriesPer100g'] as num).toDouble(),
         proteinPer100g: (product['proteinPer100g'] as num).toDouble(),
         fatPer100g: (product['fatPer100g'] as num).toDouble(),

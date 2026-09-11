@@ -2,12 +2,14 @@
     {
         "name":  "Куриная грудка",
         "state":  "raw",
-        "caloriesPer100g":  165,
-        "proteinPer100g":  31,
-        "fatPer100g":  3.6,
+        "caloriesPer100g":  106,
+        "proteinPer100g":  22.5,
+        "fatPer100g":  1.93,
         "carbsPer100g":  0,
         "gramsPerMl":  null,
-        "category":  "poultry"
+        "category":  "poultry",
+        "source":  "usda_foundation",
+        "sourceId":  "2646170"
     },
     {
         "name":  "Куриное филе",
@@ -17,7 +19,9 @@
         "fatPer100g":  3.6,
         "carbsPer100g":  0,
         "gramsPerMl":  null,
-        "category":  "poultry"
+        "category":  "poultry",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Курица",
@@ -27,7 +31,9 @@
         "fatPer100g":  3.6,
         "carbsPer100g":  0,
         "gramsPerMl":  null,
-        "category":  "poultry"
+        "category":  "poultry",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Филе индейки",
@@ -37,7 +43,9 @@
         "fatPer100g":  1.6,
         "carbsPer100g":  0,
         "gramsPerMl":  null,
-        "category":  "poultry"
+        "category":  "poultry",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Лосось",
@@ -47,7 +55,9 @@
         "fatPer100g":  13,
         "carbsPer100g":  0,
         "gramsPerMl":  null,
-        "category":  "fish"
+        "category":  "fish",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Филе белой рыбы",
@@ -57,7 +67,9 @@
         "fatPer100g":  1.5,
         "carbsPer100g":  0,
         "gramsPerMl":  null,
-        "category":  "fish"
+        "category":  "fish",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Говядина",
@@ -67,7 +79,9 @@
         "fatPer100g":  9,
         "carbsPer100g":  0,
         "gramsPerMl":  null,
-        "category":  "meat"
+        "category":  "meat",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Рис",
@@ -77,7 +91,9 @@
         "fatPer100g":  0.7,
         "carbsPer100g":  79,
         "gramsPerMl":  null,
-        "category":  "grain"
+        "category":  "grain",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Гречка",
@@ -87,7 +103,9 @@
         "fatPer100g":  3.4,
         "carbsPer100g":  72,
         "gramsPerMl":  null,
-        "category":  "grain"
+        "category":  "grain",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Кускус",
@@ -97,7 +115,9 @@
         "fatPer100g":  0.6,
         "carbsPer100g":  77.4,
         "gramsPerMl":  null,
-        "category":  "grain"
+        "category":  "grain",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Чечевица",
@@ -107,7 +127,9 @@
         "fatPer100g":  1.1,
         "carbsPer100g":  60,
         "gramsPerMl":  null,
-        "category":  "legume"
+        "category":  "legume",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Паста",
@@ -117,7 +139,9 @@
         "fatPer100g":  1.5,
         "carbsPer100g":  72,
         "gramsPerMl":  null,
-        "category":  "pasta"
+        "category":  "pasta",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Картофель",
@@ -127,7 +151,9 @@
         "fatPer100g":  0.1,
         "carbsPer100g":  17.5,
         "gramsPerMl":  null,
-        "category":  "vegetable"
+        "category":  "vegetable",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Морковь",
@@ -137,7 +163,9 @@
         "fatPer100g":  0.2,
         "carbsPer100g":  9.6,
         "gramsPerMl":  null,
-        "category":  "vegetable"
+        "category":  "vegetable",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Лук",
@@ -147,7 +175,9 @@
         "fatPer100g":  0.1,
         "carbsPer100g":  9.3,
         "gramsPerMl":  null,
-        "category":  "vegetable"
+        "category":  "vegetable",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Кабачок",
@@ -157,7 +187,9 @@
         "fatPer100g":  0.3,
         "carbsPer100g":  3.1,
         "gramsPerMl":  null,
-        "category":  "vegetable"
+        "category":  "vegetable",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Брокколи",
@@ -167,7 +199,9 @@
         "fatPer100g":  0.4,
         "carbsPer100g":  6.6,
         "gramsPerMl":  null,
-        "category":  "vegetable"
+        "category":  "vegetable",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Перец",
@@ -177,7 +211,9 @@
         "fatPer100g":  0.3,
         "carbsPer100g":  6,
         "gramsPerMl":  null,
-        "category":  "vegetable"
+        "category":  "vegetable",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Баклажан",
@@ -187,7 +223,9 @@
         "fatPer100g":  0.2,
         "carbsPer100g":  6,
         "gramsPerMl":  null,
-        "category":  "vegetable"
+        "category":  "vegetable",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Томаты",
@@ -197,7 +235,9 @@
         "fatPer100g":  0.2,
         "carbsPer100g":  3.9,
         "gramsPerMl":  null,
-        "category":  "vegetable"
+        "category":  "vegetable",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Томатный соус",
@@ -207,7 +247,9 @@
         "fatPer100g":  0.2,
         "carbsPer100g":  7,
         "gramsPerMl":  null,
-        "category":  "sauce"
+        "category":  "sauce",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Пармезан",
@@ -217,7 +259,9 @@
         "fatPer100g":  29,
         "carbsPer100g":  4.1,
         "gramsPerMl":  null,
-        "category":  "dairy"
+        "category":  "dairy",
+        "source":  "legacy_local",
+        "sourceId":  null
     },
     {
         "name":  "Оливковое масло",
@@ -227,6 +271,8 @@
         "fatPer100g":  100,
         "carbsPer100g":  0,
         "gramsPerMl":  0.91,
-        "category":  "oil"
+        "category":  "oil",
+        "source":  "legacy_local",
+        "sourceId":  null
     }
 ]
