@@ -231,10 +231,21 @@ class AppDatabase extends _$AppDatabase {
     return select(foodProducts).get();
   }
 
-  Future<FoodProduct?> getFoodProductByName(String name) {
-    return (select(
-      foodProducts,
-    )..where((table) => table.name.equals(name))).getSingleOrNull();
+  String _normalizeFoodProductName(String value) {
+    return value.trim().toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
+  }
+
+  Future<FoodProduct?> getFoodProductByName(String name) async {
+    final normalizedName = _normalizeFoodProductName(name);
+    final products = await select(foodProducts).get();
+
+    for (final product in products) {
+      if (_normalizeFoodProductName(product.name) == normalizedName) {
+        return product;
+      }
+    }
+
+    return null;
   }
 
   Future<int> addFoodProduct({
@@ -306,17 +317,20 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<FoodProduct?> getFoodProductByAlias(String alias) async {
-    final aliasRow = await (select(
-      foodProductAliases,
-    )..where((table) => table.alias.equals(alias))).getSingleOrNull();
+    final normalizedAlias = _normalizeFoodProductName(alias);
+    final aliases = await select(foodProductAliases).get();
 
-    if (aliasRow == null) {
-      return null;
+    for (final aliasRow in aliases) {
+      if (_normalizeFoodProductName(aliasRow.alias) != normalizedAlias) {
+        continue;
+      }
+
+      return (select(foodProducts)
+            ..where((table) => table.id.equals(aliasRow.foodProductId)))
+          .getSingleOrNull();
     }
 
-    return (select(foodProducts)
-          ..where((table) => table.id.equals(aliasRow.foodProductId)))
-        .getSingleOrNull();
+    return null;
   }
 
   Future<FoodProduct?> getFoodProductByNameOrAlias(String name) async {
