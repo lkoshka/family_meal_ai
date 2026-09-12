@@ -376,6 +376,10 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
+  Future<List<UnknownFoodProduct>> getAllUnknownFoodProducts() {
+    return select(unknownFoodProducts).get();
+  }
+
   Future<List<Family>> getAllFamilies() {
     return select(families).get();
   }
