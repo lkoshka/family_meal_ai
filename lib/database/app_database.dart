@@ -90,6 +90,16 @@ class FoodProductAliases extends Table {
   TextColumn get alias => text().unique()();
 }
 
+class UnknownFoodProducts extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  TextColumn get name => text().unique()();
+
+  TextColumn get status => text().withDefault(const Constant('pending'))();
+
+  DateTimeColumn get firstSeenAt => dateTime()();
+}
+
 class Recipes extends Table {
   IntColumn get id => integer().autoIncrement()();
 
@@ -144,6 +154,7 @@ class RecipeIngredients extends Table {
     PantryProducts,
     FoodProducts,
     FoodProductAliases,
+    UnknownFoodProducts,
     Recipes,
     RecipeIngredients,
   ],
@@ -158,7 +169,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase._internal() : super(_openConnection());
 
   @override
-  int get schemaVersion => 13;
+  int get schemaVersion => 14;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -223,6 +234,10 @@ class AppDatabase extends _$AppDatabase {
 
       if (from < 13) {
         await m.createTable(foodProductAliases);
+      }
+
+      if (from < 14) {
+        await m.createTable(unknownFoodProducts);
       }
     },
   );
@@ -341,6 +356,24 @@ class AppDatabase extends _$AppDatabase {
     }
 
     return getFoodProductByAlias(name);
+  }
+
+  Future<int?> addUnknownFoodProductIfNeeded(String name) async {
+    final normalizedName = _normalizeFoodProductName(name);
+    final unknowns = await select(unknownFoodProducts).get();
+
+    for (final item in unknowns) {
+      if (_normalizeFoodProductName(item.name) == normalizedName) {
+        return null;
+      }
+    }
+
+    return into(unknownFoodProducts).insert(
+      UnknownFoodProductsCompanion.insert(
+        name: name.trim(),
+        firstSeenAt: DateTime.now(),
+      ),
+    );
   }
 
   Future<List<Family>> getAllFamilies() {

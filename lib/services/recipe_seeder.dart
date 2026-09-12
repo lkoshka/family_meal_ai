@@ -15,6 +15,7 @@ class RecipeSeeder {
         );
 
         if (nutrition == null) {
+          await database.addUnknownFoodProductIfNeeded(ingredient.name);
           continue;
         }
         final gramsPerMl = nutrition.gramsPerMl;
@@ -723,6 +724,10 @@ class RecipeSeeder {
       final unit = ingredient.$3;
 
       final nutrition = await database.getFoodProductByNameOrAlias(name);
+
+      if (nutrition == null) {
+        await database.addUnknownFoodProductIfNeeded(name);
+      }
       final gramsPerMl = nutrition?.gramsPerMl;
 
       double? weightGrams;

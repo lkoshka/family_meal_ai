@@ -2487,6 +2487,307 @@ class FoodProductAliasesCompanion extends UpdateCompanion<FoodProductAliase> {
   }
 }
 
+class $UnknownFoodProductsTable extends UnknownFoodProducts
+    with TableInfo<$UnknownFoodProductsTable, UnknownFoodProduct> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UnknownFoodProductsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('pending'),
+  );
+  static const VerificationMeta _firstSeenAtMeta = const VerificationMeta(
+    'firstSeenAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> firstSeenAt = GeneratedColumn<DateTime>(
+    'first_seen_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, status, firstSeenAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'unknown_food_products';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<UnknownFoodProduct> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('first_seen_at')) {
+      context.handle(
+        _firstSeenAtMeta,
+        firstSeenAt.isAcceptableOrUnknown(
+          data['first_seen_at']!,
+          _firstSeenAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_firstSeenAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  UnknownFoodProduct map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UnknownFoodProduct(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      firstSeenAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}first_seen_at'],
+      )!,
+    );
+  }
+
+  @override
+  $UnknownFoodProductsTable createAlias(String alias) {
+    return $UnknownFoodProductsTable(attachedDatabase, alias);
+  }
+}
+
+class UnknownFoodProduct extends DataClass
+    implements Insertable<UnknownFoodProduct> {
+  final int id;
+  final String name;
+  final String status;
+  final DateTime firstSeenAt;
+  const UnknownFoodProduct({
+    required this.id,
+    required this.name,
+    required this.status,
+    required this.firstSeenAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    map['status'] = Variable<String>(status);
+    map['first_seen_at'] = Variable<DateTime>(firstSeenAt);
+    return map;
+  }
+
+  UnknownFoodProductsCompanion toCompanion(bool nullToAbsent) {
+    return UnknownFoodProductsCompanion(
+      id: Value(id),
+      name: Value(name),
+      status: Value(status),
+      firstSeenAt: Value(firstSeenAt),
+    );
+  }
+
+  factory UnknownFoodProduct.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UnknownFoodProduct(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      status: serializer.fromJson<String>(json['status']),
+      firstSeenAt: serializer.fromJson<DateTime>(json['firstSeenAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'status': serializer.toJson<String>(status),
+      'firstSeenAt': serializer.toJson<DateTime>(firstSeenAt),
+    };
+  }
+
+  UnknownFoodProduct copyWith({
+    int? id,
+    String? name,
+    String? status,
+    DateTime? firstSeenAt,
+  }) => UnknownFoodProduct(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    status: status ?? this.status,
+    firstSeenAt: firstSeenAt ?? this.firstSeenAt,
+  );
+  UnknownFoodProduct copyWithCompanion(UnknownFoodProductsCompanion data) {
+    return UnknownFoodProduct(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      status: data.status.present ? data.status.value : this.status,
+      firstSeenAt: data.firstSeenAt.present
+          ? data.firstSeenAt.value
+          : this.firstSeenAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UnknownFoodProduct(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('status: $status, ')
+          ..write('firstSeenAt: $firstSeenAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, status, firstSeenAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UnknownFoodProduct &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.status == this.status &&
+          other.firstSeenAt == this.firstSeenAt);
+}
+
+class UnknownFoodProductsCompanion extends UpdateCompanion<UnknownFoodProduct> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String> status;
+  final Value<DateTime> firstSeenAt;
+  const UnknownFoodProductsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.status = const Value.absent(),
+    this.firstSeenAt = const Value.absent(),
+  });
+  UnknownFoodProductsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    this.status = const Value.absent(),
+    required DateTime firstSeenAt,
+  }) : name = Value(name),
+       firstSeenAt = Value(firstSeenAt);
+  static Insertable<UnknownFoodProduct> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? status,
+    Expression<DateTime>? firstSeenAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status,
+      if (firstSeenAt != null) 'first_seen_at': firstSeenAt,
+    });
+  }
+
+  UnknownFoodProductsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<String>? status,
+    Value<DateTime>? firstSeenAt,
+  }) {
+    return UnknownFoodProductsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      status: status ?? this.status,
+      firstSeenAt: firstSeenAt ?? this.firstSeenAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (firstSeenAt.present) {
+      map['first_seen_at'] = Variable<DateTime>(firstSeenAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UnknownFoodProductsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('status: $status, ')
+          ..write('firstSeenAt: $firstSeenAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -3896,6 +4197,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $FoodProductsTable foodProducts = $FoodProductsTable(this);
   late final $FoodProductAliasesTable foodProductAliases =
       $FoodProductAliasesTable(this);
+  late final $UnknownFoodProductsTable unknownFoodProducts =
+      $UnknownFoodProductsTable(this);
   late final $RecipesTable recipes = $RecipesTable(this);
   late final $RecipeIngredientsTable recipeIngredients =
       $RecipeIngredientsTable(this);
@@ -3909,6 +4212,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     pantryProducts,
     foodProducts,
     foodProductAliases,
+    unknownFoodProducts,
     recipes,
     recipeIngredients,
   ];
@@ -5176,6 +5480,199 @@ typedef $$FoodProductAliasesTableProcessedTableManager =
       FoodProductAliase,
       PrefetchHooks Function()
     >;
+typedef $$UnknownFoodProductsTableCreateCompanionBuilder =
+    UnknownFoodProductsCompanion Function({
+      Value<int> id,
+      required String name,
+      Value<String> status,
+      required DateTime firstSeenAt,
+    });
+typedef $$UnknownFoodProductsTableUpdateCompanionBuilder =
+    UnknownFoodProductsCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<String> status,
+      Value<DateTime> firstSeenAt,
+    });
+
+class $$UnknownFoodProductsTableFilterComposer
+    extends Composer<_$AppDatabase, $UnknownFoodProductsTable> {
+  $$UnknownFoodProductsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get firstSeenAt => $composableBuilder(
+    column: $table.firstSeenAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$UnknownFoodProductsTableOrderingComposer
+    extends Composer<_$AppDatabase, $UnknownFoodProductsTable> {
+  $$UnknownFoodProductsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get firstSeenAt => $composableBuilder(
+    column: $table.firstSeenAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$UnknownFoodProductsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UnknownFoodProductsTable> {
+  $$UnknownFoodProductsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get firstSeenAt => $composableBuilder(
+    column: $table.firstSeenAt,
+    builder: (column) => column,
+  );
+}
+
+class $$UnknownFoodProductsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $UnknownFoodProductsTable,
+          UnknownFoodProduct,
+          $$UnknownFoodProductsTableFilterComposer,
+          $$UnknownFoodProductsTableOrderingComposer,
+          $$UnknownFoodProductsTableAnnotationComposer,
+          $$UnknownFoodProductsTableCreateCompanionBuilder,
+          $$UnknownFoodProductsTableUpdateCompanionBuilder,
+          (
+            UnknownFoodProduct,
+            BaseReferences<
+              _$AppDatabase,
+              $UnknownFoodProductsTable,
+              UnknownFoodProduct
+            >,
+          ),
+          UnknownFoodProduct,
+          PrefetchHooks Function()
+        > {
+  $$UnknownFoodProductsTableTableManager(
+    _$AppDatabase db,
+    $UnknownFoodProductsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UnknownFoodProductsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UnknownFoodProductsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$UnknownFoodProductsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime> firstSeenAt = const Value.absent(),
+              }) => UnknownFoodProductsCompanion(
+                id: id,
+                name: name,
+                status: status,
+                firstSeenAt: firstSeenAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                Value<String> status = const Value.absent(),
+                required DateTime firstSeenAt,
+              }) => UnknownFoodProductsCompanion.insert(
+                id: id,
+                name: name,
+                status: status,
+                firstSeenAt: firstSeenAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$UnknownFoodProductsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $UnknownFoodProductsTable,
+      UnknownFoodProduct,
+      $$UnknownFoodProductsTableFilterComposer,
+      $$UnknownFoodProductsTableOrderingComposer,
+      $$UnknownFoodProductsTableAnnotationComposer,
+      $$UnknownFoodProductsTableCreateCompanionBuilder,
+      $$UnknownFoodProductsTableUpdateCompanionBuilder,
+      (
+        UnknownFoodProduct,
+        BaseReferences<
+          _$AppDatabase,
+          $UnknownFoodProductsTable,
+          UnknownFoodProduct
+        >,
+      ),
+      UnknownFoodProduct,
+      PrefetchHooks Function()
+    >;
 typedef $$RecipesTableCreateCompanionBuilder = RecipesCompanion Function({
   Value<int> id,
   required String name,
@@ -5854,6 +6351,8 @@ class $AppDatabaseManager {
       $$FoodProductsTableTableManager(_db, _db.foodProducts);
   $$FoodProductAliasesTableTableManager get foodProductAliases =>
       $$FoodProductAliasesTableTableManager(_db, _db.foodProductAliases);
+  $$UnknownFoodProductsTableTableManager get unknownFoodProducts =>
+      $$UnknownFoodProductsTableTableManager(_db, _db.unknownFoodProducts);
   $$RecipesTableTableManager get recipes =>
       $$RecipesTableTableManager(_db, _db.recipes);
   $$RecipeIngredientsTableTableManager get recipeIngredients =>
