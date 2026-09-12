@@ -2231,6 +2231,262 @@ class FoodProductsCompanion extends UpdateCompanion<FoodProduct> {
   }
 }
 
+class $FoodProductAliasesTable extends FoodProductAliases
+    with TableInfo<$FoodProductAliasesTable, FoodProductAliase> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $FoodProductAliasesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _foodProductIdMeta = const VerificationMeta(
+    'foodProductId',
+  );
+  @override
+  late final GeneratedColumn<int> foodProductId = GeneratedColumn<int>(
+    'food_product_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _aliasMeta = const VerificationMeta('alias');
+  @override
+  late final GeneratedColumn<String> alias = GeneratedColumn<String>(
+    'alias',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, foodProductId, alias];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'food_product_aliases';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<FoodProductAliase> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('food_product_id')) {
+      context.handle(
+        _foodProductIdMeta,
+        foodProductId.isAcceptableOrUnknown(
+          data['food_product_id']!,
+          _foodProductIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_foodProductIdMeta);
+    }
+    if (data.containsKey('alias')) {
+      context.handle(
+        _aliasMeta,
+        alias.isAcceptableOrUnknown(data['alias']!, _aliasMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_aliasMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  FoodProductAliase map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FoodProductAliase(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      foodProductId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}food_product_id'],
+      )!,
+      alias: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}alias'],
+      )!,
+    );
+  }
+
+  @override
+  $FoodProductAliasesTable createAlias(String alias) {
+    return $FoodProductAliasesTable(attachedDatabase, alias);
+  }
+}
+
+class FoodProductAliase extends DataClass
+    implements Insertable<FoodProductAliase> {
+  final int id;
+  final int foodProductId;
+  final String alias;
+  const FoodProductAliase({
+    required this.id,
+    required this.foodProductId,
+    required this.alias,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['food_product_id'] = Variable<int>(foodProductId);
+    map['alias'] = Variable<String>(alias);
+    return map;
+  }
+
+  FoodProductAliasesCompanion toCompanion(bool nullToAbsent) {
+    return FoodProductAliasesCompanion(
+      id: Value(id),
+      foodProductId: Value(foodProductId),
+      alias: Value(alias),
+    );
+  }
+
+  factory FoodProductAliase.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FoodProductAliase(
+      id: serializer.fromJson<int>(json['id']),
+      foodProductId: serializer.fromJson<int>(json['foodProductId']),
+      alias: serializer.fromJson<String>(json['alias']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'foodProductId': serializer.toJson<int>(foodProductId),
+      'alias': serializer.toJson<String>(alias),
+    };
+  }
+
+  FoodProductAliase copyWith({int? id, int? foodProductId, String? alias}) =>
+      FoodProductAliase(
+        id: id ?? this.id,
+        foodProductId: foodProductId ?? this.foodProductId,
+        alias: alias ?? this.alias,
+      );
+  FoodProductAliase copyWithCompanion(FoodProductAliasesCompanion data) {
+    return FoodProductAliase(
+      id: data.id.present ? data.id.value : this.id,
+      foodProductId: data.foodProductId.present
+          ? data.foodProductId.value
+          : this.foodProductId,
+      alias: data.alias.present ? data.alias.value : this.alias,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FoodProductAliase(')
+          ..write('id: $id, ')
+          ..write('foodProductId: $foodProductId, ')
+          ..write('alias: $alias')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, foodProductId, alias);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FoodProductAliase &&
+          other.id == this.id &&
+          other.foodProductId == this.foodProductId &&
+          other.alias == this.alias);
+}
+
+class FoodProductAliasesCompanion extends UpdateCompanion<FoodProductAliase> {
+  final Value<int> id;
+  final Value<int> foodProductId;
+  final Value<String> alias;
+  const FoodProductAliasesCompanion({
+    this.id = const Value.absent(),
+    this.foodProductId = const Value.absent(),
+    this.alias = const Value.absent(),
+  });
+  FoodProductAliasesCompanion.insert({
+    this.id = const Value.absent(),
+    required int foodProductId,
+    required String alias,
+  }) : foodProductId = Value(foodProductId),
+       alias = Value(alias);
+  static Insertable<FoodProductAliase> custom({
+    Expression<int>? id,
+    Expression<int>? foodProductId,
+    Expression<String>? alias,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (foodProductId != null) 'food_product_id': foodProductId,
+      if (alias != null) 'alias': alias,
+    });
+  }
+
+  FoodProductAliasesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? foodProductId,
+    Value<String>? alias,
+  }) {
+    return FoodProductAliasesCompanion(
+      id: id ?? this.id,
+      foodProductId: foodProductId ?? this.foodProductId,
+      alias: alias ?? this.alias,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (foodProductId.present) {
+      map['food_product_id'] = Variable<int>(foodProductId.value);
+    }
+    if (alias.present) {
+      map['alias'] = Variable<String>(alias.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FoodProductAliasesCompanion(')
+          ..write('id: $id, ')
+          ..write('foodProductId: $foodProductId, ')
+          ..write('alias: $alias')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -3638,6 +3894,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $FamilyMembersTable familyMembers = $FamilyMembersTable(this);
   late final $PantryProductsTable pantryProducts = $PantryProductsTable(this);
   late final $FoodProductsTable foodProducts = $FoodProductsTable(this);
+  late final $FoodProductAliasesTable foodProductAliases =
+      $FoodProductAliasesTable(this);
   late final $RecipesTable recipes = $RecipesTable(this);
   late final $RecipeIngredientsTable recipeIngredients =
       $RecipeIngredientsTable(this);
@@ -3650,6 +3908,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     familyMembers,
     pantryProducts,
     foodProducts,
+    foodProductAliases,
     recipes,
     recipeIngredients,
   ];
@@ -4746,6 +5005,177 @@ typedef $$FoodProductsTableProcessedTableManager =
       FoodProduct,
       PrefetchHooks Function()
     >;
+typedef $$FoodProductAliasesTableCreateCompanionBuilder =
+    FoodProductAliasesCompanion Function({
+      Value<int> id,
+      required int foodProductId,
+      required String alias,
+    });
+typedef $$FoodProductAliasesTableUpdateCompanionBuilder =
+    FoodProductAliasesCompanion Function({
+      Value<int> id,
+      Value<int> foodProductId,
+      Value<String> alias,
+    });
+
+class $$FoodProductAliasesTableFilterComposer
+    extends Composer<_$AppDatabase, $FoodProductAliasesTable> {
+  $$FoodProductAliasesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get foodProductId => $composableBuilder(
+    column: $table.foodProductId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get alias => $composableBuilder(
+    column: $table.alias,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$FoodProductAliasesTableOrderingComposer
+    extends Composer<_$AppDatabase, $FoodProductAliasesTable> {
+  $$FoodProductAliasesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get foodProductId => $composableBuilder(
+    column: $table.foodProductId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get alias => $composableBuilder(
+    column: $table.alias,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$FoodProductAliasesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $FoodProductAliasesTable> {
+  $$FoodProductAliasesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get foodProductId => $composableBuilder(
+    column: $table.foodProductId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get alias =>
+      $composableBuilder(column: $table.alias, builder: (column) => column);
+}
+
+class $$FoodProductAliasesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $FoodProductAliasesTable,
+          FoodProductAliase,
+          $$FoodProductAliasesTableFilterComposer,
+          $$FoodProductAliasesTableOrderingComposer,
+          $$FoodProductAliasesTableAnnotationComposer,
+          $$FoodProductAliasesTableCreateCompanionBuilder,
+          $$FoodProductAliasesTableUpdateCompanionBuilder,
+          (
+            FoodProductAliase,
+            BaseReferences<
+              _$AppDatabase,
+              $FoodProductAliasesTable,
+              FoodProductAliase
+            >,
+          ),
+          FoodProductAliase,
+          PrefetchHooks Function()
+        > {
+  $$FoodProductAliasesTableTableManager(
+    _$AppDatabase db,
+    $FoodProductAliasesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FoodProductAliasesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FoodProductAliasesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FoodProductAliasesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> foodProductId = const Value.absent(),
+                Value<String> alias = const Value.absent(),
+              }) => FoodProductAliasesCompanion(
+                id: id,
+                foodProductId: foodProductId,
+                alias: alias,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int foodProductId,
+                required String alias,
+              }) => FoodProductAliasesCompanion.insert(
+                id: id,
+                foodProductId: foodProductId,
+                alias: alias,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$FoodProductAliasesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $FoodProductAliasesTable,
+      FoodProductAliase,
+      $$FoodProductAliasesTableFilterComposer,
+      $$FoodProductAliasesTableOrderingComposer,
+      $$FoodProductAliasesTableAnnotationComposer,
+      $$FoodProductAliasesTableCreateCompanionBuilder,
+      $$FoodProductAliasesTableUpdateCompanionBuilder,
+      (
+        FoodProductAliase,
+        BaseReferences<
+          _$AppDatabase,
+          $FoodProductAliasesTable,
+          FoodProductAliase
+        >,
+      ),
+      FoodProductAliase,
+      PrefetchHooks Function()
+    >;
 typedef $$RecipesTableCreateCompanionBuilder = RecipesCompanion Function({
   Value<int> id,
   required String name,
@@ -5422,6 +5852,8 @@ class $AppDatabaseManager {
       $$PantryProductsTableTableManager(_db, _db.pantryProducts);
   $$FoodProductsTableTableManager get foodProducts =>
       $$FoodProductsTableTableManager(_db, _db.foodProducts);
+  $$FoodProductAliasesTableTableManager get foodProductAliases =>
+      $$FoodProductAliasesTableTableManager(_db, _db.foodProductAliases);
   $$RecipesTableTableManager get recipes =>
       $$RecipesTableTableManager(_db, _db.recipes);
   $$RecipeIngredientsTableTableManager get recipeIngredients =>

@@ -82,6 +82,14 @@ class FoodProducts extends Table {
   RealColumn get gramsPerMl => real().nullable()();
 }
 
+class FoodProductAliases extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  IntColumn get foodProductId => integer()();
+
+  TextColumn get alias => text().unique()();
+}
+
 class Recipes extends Table {
   IntColumn get id => integer().autoIncrement()();
 
@@ -135,6 +143,7 @@ class RecipeIngredients extends Table {
     FamilyMembers,
     PantryProducts,
     FoodProducts,
+    FoodProductAliases,
     Recipes,
     RecipeIngredients,
   ],
@@ -149,7 +158,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase._internal() : super(_openConnection());
 
   @override
-  int get schemaVersion => 12;
+  int get schemaVersion => 13;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -210,6 +219,10 @@ class AppDatabase extends _$AppDatabase {
 
       if (from < 12) {
         await m.addColumn(foodProducts, foodProducts.sourceId);
+      }
+
+      if (from < 13) {
+        await m.createTable(foodProductAliases);
       }
     },
   );
@@ -277,6 +290,43 @@ class AppDatabase extends _$AppDatabase {
         gramsPerMl: Value(gramsPerMl),
       ),
     );
+  }
+
+  Future<int> addFoodProductAlias({
+    required int foodProductId,
+    required String alias,
+  }) {
+    return into(foodProductAliases).insert(
+      FoodProductAliasesCompanion.insert(
+        foodProductId: foodProductId,
+        alias: alias,
+      ),
+      mode: InsertMode.insertOrIgnore,
+    );
+  }
+
+  Future<FoodProduct?> getFoodProductByAlias(String alias) async {
+    final aliasRow = await (select(
+      foodProductAliases,
+    )..where((table) => table.alias.equals(alias))).getSingleOrNull();
+
+    if (aliasRow == null) {
+      return null;
+    }
+
+    return (select(foodProducts)
+          ..where((table) => table.id.equals(aliasRow.foodProductId)))
+        .getSingleOrNull();
+  }
+
+  Future<FoodProduct?> getFoodProductByNameOrAlias(String name) async {
+    final direct = await getFoodProductByName(name);
+
+    if (direct != null) {
+      return direct;
+    }
+
+    return getFoodProductByAlias(name);
   }
 
   Future<List<Family>> getAllFamilies() {

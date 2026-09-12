@@ -10,7 +10,9 @@ class RecipeSeeder {
       final ingredients = await database.getRecipeIngredients(recipe.id);
 
       for (final ingredient in ingredients) {
-        final nutrition = await database.getFoodProductByName(ingredient.name);
+        final nutrition = await database.getFoodProductByNameOrAlias(
+          ingredient.name,
+        );
 
         if (nutrition == null) {
           continue;
@@ -509,7 +511,7 @@ class RecipeSeeder {
     );
 
     await _addIngredients(database, recipeId, [
-      ('Куриное филе', 650.0, 'г'),
+      ('филе курицы', 650.0, 'г'),
       ('Кабачок', 250.0, 'г'),
       ('Баклажан', 250.0, 'г'),
       ('Перец', 200.0, 'г'),
@@ -720,7 +722,7 @@ class RecipeSeeder {
       final amount = ingredient.$2;
       final unit = ingredient.$3;
 
-      final nutrition = await database.getFoodProductByName(name);
+      final nutrition = await database.getFoodProductByNameOrAlias(name);
       final gramsPerMl = nutrition?.gramsPerMl;
 
       double? weightGrams;
