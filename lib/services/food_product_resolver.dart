@@ -1,9 +1,11 @@
 import '../database/app_database.dart';
+import 'food_product_source.dart';
 
 class FoodProductResolver {
-  const FoodProductResolver(this.database);
+  const FoodProductResolver(this.database, {this.source});
 
   final AppDatabase database;
+  final FoodProductSource? source;
 
   Future<List<UnknownFoodProduct>> getPendingProducts() async {
     final unknownProducts = await database.getAllUnknownFoodProducts();
