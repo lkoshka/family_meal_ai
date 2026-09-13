@@ -38,7 +38,9 @@ class UsdaFoodProductSource implements FoodProductSource {
     }
     final nutrients = food['foodNutrients'] as List<dynamic>? ?? const [];
 
-    final calories = _findNutrientAmount(nutrients, 1008);
+    final calories =
+        _findNutrientAmount(nutrients, 2047) ??
+        _findNutrientAmount(nutrients, 1008);
     final protein = _findNutrientAmount(nutrients, 1003);
     final fat = _findNutrientAmount(nutrients, 1004);
     final carbs = _findNutrientAmount(nutrients, 1005);
