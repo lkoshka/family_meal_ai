@@ -31,7 +31,11 @@ class UsdaFoodProductSource implements FoodProductSource {
       return null;
     }
 
-    final food = foods.first as Map<String, dynamic>;
+    final food = _selectBestFood(name, foods);
+
+    if (food == null) {
+      return null;
+    }
     final nutrients = food['foodNutrients'] as List<dynamic>? ?? const [];
 
     final calories = _findNutrientAmount(nutrients, 1008);
@@ -54,6 +58,57 @@ class UsdaFoodProductSource implements FoodProductSource {
       fatPer100g: fat,
       carbsPer100g: carbs,
     );
+  }
+
+  Map<String, dynamic>? _selectBestFood(String query, List<dynamic> foods) {
+    final queryWords = query
+        .toLowerCase()
+        .split(RegExp(r'[\s,]+'))
+        .where((word) => word.isNotEmpty)
+        .toList();
+
+    Map<String, dynamic>? bestFood;
+    var bestScore = -1;
+
+    for (final item in foods) {
+      final food = item as Map<String, dynamic>;
+      final description = (food['description'] as String? ?? '').toLowerCase();
+
+      var score = 0;
+
+      for (final word in queryWords) {
+        if (description.contains(word)) {
+          score += 10;
+        }
+      }
+
+      if (description.contains('raw')) {
+        score += 3;
+      }
+
+      if (description.contains('boneless')) {
+        score += 2;
+      }
+
+      if (description.contains('skinless')) {
+        score += 2;
+      }
+
+      if (description.contains('breaded')) {
+        score -= 5;
+      }
+
+      if (description.contains('lunchmeat') || description.contains('deli')) {
+        score -= 5;
+      }
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestFood = food;
+      }
+    }
+
+    return bestFood;
   }
 
   double? _findNutrientAmount(List<dynamic> nutrients, int nutrientId) {
