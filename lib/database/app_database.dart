@@ -97,6 +97,8 @@ class UnknownFoodProducts extends Table {
 
   TextColumn get status => text().withDefault(const Constant('pending'))();
 
+  IntColumn get resolvedFoodProductId => integer().nullable()();
+
   DateTimeColumn get firstSeenAt => dateTime()();
 }
 
@@ -169,7 +171,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase._internal() : super(_openConnection());
 
   @override
-  int get schemaVersion => 14;
+  int get schemaVersion => 15;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -238,6 +240,13 @@ class AppDatabase extends _$AppDatabase {
 
       if (from < 14) {
         await m.createTable(unknownFoodProducts);
+      }
+
+      if (from < 15) {
+        await m.addColumn(
+          unknownFoodProducts,
+          unknownFoodProducts.resolvedFoodProductId,
+        );
       }
     },
   );
@@ -378,6 +387,20 @@ class AppDatabase extends _$AppDatabase {
 
   Future<List<UnknownFoodProduct>> getAllUnknownFoodProducts() {
     return select(unknownFoodProducts).get();
+  }
+
+  Future<int> markUnknownFoodProductResolved({
+    required int unknownFoodProductId,
+    required int foodProductId,
+  }) {
+    return (update(
+      unknownFoodProducts,
+    )..where((table) => table.id.equals(unknownFoodProductId))).write(
+      UnknownFoodProductsCompanion(
+        status: const Value('resolved'),
+        resolvedFoodProductId: Value(foodProductId),
+      ),
+    );
   }
 
   Future<List<Family>> getAllFamilies() {

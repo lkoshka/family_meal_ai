@@ -2526,6 +2526,16 @@ class $UnknownFoodProductsTable extends UnknownFoodProducts
     requiredDuringInsert: false,
     defaultValue: const Constant('pending'),
   );
+  static const VerificationMeta _resolvedFoodProductIdMeta =
+      const VerificationMeta('resolvedFoodProductId');
+  @override
+  late final GeneratedColumn<int> resolvedFoodProductId = GeneratedColumn<int>(
+    'resolved_food_product_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _firstSeenAtMeta = const VerificationMeta(
     'firstSeenAt',
   );
@@ -2538,7 +2548,13 @@ class $UnknownFoodProductsTable extends UnknownFoodProducts
     requiredDuringInsert: true,
   );
   @override
-  List<GeneratedColumn> get $columns => [id, name, status, firstSeenAt];
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    status,
+    resolvedFoodProductId,
+    firstSeenAt,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -2566,6 +2582,15 @@ class $UnknownFoodProductsTable extends UnknownFoodProducts
       context.handle(
         _statusMeta,
         status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('resolved_food_product_id')) {
+      context.handle(
+        _resolvedFoodProductIdMeta,
+        resolvedFoodProductId.isAcceptableOrUnknown(
+          data['resolved_food_product_id']!,
+          _resolvedFoodProductIdMeta,
+        ),
       );
     }
     if (data.containsKey('first_seen_at')) {
@@ -2600,6 +2625,10 @@ class $UnknownFoodProductsTable extends UnknownFoodProducts
         DriftSqlType.string,
         data['${effectivePrefix}status'],
       )!,
+      resolvedFoodProductId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}resolved_food_product_id'],
+      ),
       firstSeenAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}first_seen_at'],
@@ -2618,11 +2647,13 @@ class UnknownFoodProduct extends DataClass
   final int id;
   final String name;
   final String status;
+  final int? resolvedFoodProductId;
   final DateTime firstSeenAt;
   const UnknownFoodProduct({
     required this.id,
     required this.name,
     required this.status,
+    this.resolvedFoodProductId,
     required this.firstSeenAt,
   });
   @override
@@ -2631,6 +2662,9 @@ class UnknownFoodProduct extends DataClass
     map['id'] = Variable<int>(id);
     map['name'] = Variable<String>(name);
     map['status'] = Variable<String>(status);
+    if (!nullToAbsent || resolvedFoodProductId != null) {
+      map['resolved_food_product_id'] = Variable<int>(resolvedFoodProductId);
+    }
     map['first_seen_at'] = Variable<DateTime>(firstSeenAt);
     return map;
   }
@@ -2640,6 +2674,9 @@ class UnknownFoodProduct extends DataClass
       id: Value(id),
       name: Value(name),
       status: Value(status),
+      resolvedFoodProductId: resolvedFoodProductId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resolvedFoodProductId),
       firstSeenAt: Value(firstSeenAt),
     );
   }
@@ -2653,6 +2690,9 @@ class UnknownFoodProduct extends DataClass
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       status: serializer.fromJson<String>(json['status']),
+      resolvedFoodProductId: serializer.fromJson<int?>(
+        json['resolvedFoodProductId'],
+      ),
       firstSeenAt: serializer.fromJson<DateTime>(json['firstSeenAt']),
     );
   }
@@ -2663,6 +2703,7 @@ class UnknownFoodProduct extends DataClass
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'status': serializer.toJson<String>(status),
+      'resolvedFoodProductId': serializer.toJson<int?>(resolvedFoodProductId),
       'firstSeenAt': serializer.toJson<DateTime>(firstSeenAt),
     };
   }
@@ -2671,11 +2712,15 @@ class UnknownFoodProduct extends DataClass
     int? id,
     String? name,
     String? status,
+    Value<int?> resolvedFoodProductId = const Value.absent(),
     DateTime? firstSeenAt,
   }) => UnknownFoodProduct(
     id: id ?? this.id,
     name: name ?? this.name,
     status: status ?? this.status,
+    resolvedFoodProductId: resolvedFoodProductId.present
+        ? resolvedFoodProductId.value
+        : this.resolvedFoodProductId,
     firstSeenAt: firstSeenAt ?? this.firstSeenAt,
   );
   UnknownFoodProduct copyWithCompanion(UnknownFoodProductsCompanion data) {
@@ -2683,6 +2728,9 @@ class UnknownFoodProduct extends DataClass
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       status: data.status.present ? data.status.value : this.status,
+      resolvedFoodProductId: data.resolvedFoodProductId.present
+          ? data.resolvedFoodProductId.value
+          : this.resolvedFoodProductId,
       firstSeenAt: data.firstSeenAt.present
           ? data.firstSeenAt.value
           : this.firstSeenAt,
@@ -2695,13 +2743,15 @@ class UnknownFoodProduct extends DataClass
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('status: $status, ')
+          ..write('resolvedFoodProductId: $resolvedFoodProductId, ')
           ..write('firstSeenAt: $firstSeenAt')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, status, firstSeenAt);
+  int get hashCode =>
+      Object.hash(id, name, status, resolvedFoodProductId, firstSeenAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2709,6 +2759,7 @@ class UnknownFoodProduct extends DataClass
           other.id == this.id &&
           other.name == this.name &&
           other.status == this.status &&
+          other.resolvedFoodProductId == this.resolvedFoodProductId &&
           other.firstSeenAt == this.firstSeenAt);
 }
 
@@ -2716,17 +2767,20 @@ class UnknownFoodProductsCompanion extends UpdateCompanion<UnknownFoodProduct> {
   final Value<int> id;
   final Value<String> name;
   final Value<String> status;
+  final Value<int?> resolvedFoodProductId;
   final Value<DateTime> firstSeenAt;
   const UnknownFoodProductsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.status = const Value.absent(),
+    this.resolvedFoodProductId = const Value.absent(),
     this.firstSeenAt = const Value.absent(),
   });
   UnknownFoodProductsCompanion.insert({
     this.id = const Value.absent(),
     required String name,
     this.status = const Value.absent(),
+    this.resolvedFoodProductId = const Value.absent(),
     required DateTime firstSeenAt,
   }) : name = Value(name),
        firstSeenAt = Value(firstSeenAt);
@@ -2734,12 +2788,15 @@ class UnknownFoodProductsCompanion extends UpdateCompanion<UnknownFoodProduct> {
     Expression<int>? id,
     Expression<String>? name,
     Expression<String>? status,
+    Expression<int>? resolvedFoodProductId,
     Expression<DateTime>? firstSeenAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (status != null) 'status': status,
+      if (resolvedFoodProductId != null)
+        'resolved_food_product_id': resolvedFoodProductId,
       if (firstSeenAt != null) 'first_seen_at': firstSeenAt,
     });
   }
@@ -2748,12 +2805,15 @@ class UnknownFoodProductsCompanion extends UpdateCompanion<UnknownFoodProduct> {
     Value<int>? id,
     Value<String>? name,
     Value<String>? status,
+    Value<int?>? resolvedFoodProductId,
     Value<DateTime>? firstSeenAt,
   }) {
     return UnknownFoodProductsCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       status: status ?? this.status,
+      resolvedFoodProductId:
+          resolvedFoodProductId ?? this.resolvedFoodProductId,
       firstSeenAt: firstSeenAt ?? this.firstSeenAt,
     );
   }
@@ -2770,6 +2830,11 @@ class UnknownFoodProductsCompanion extends UpdateCompanion<UnknownFoodProduct> {
     if (status.present) {
       map['status'] = Variable<String>(status.value);
     }
+    if (resolvedFoodProductId.present) {
+      map['resolved_food_product_id'] = Variable<int>(
+        resolvedFoodProductId.value,
+      );
+    }
     if (firstSeenAt.present) {
       map['first_seen_at'] = Variable<DateTime>(firstSeenAt.value);
     }
@@ -2782,6 +2847,7 @@ class UnknownFoodProductsCompanion extends UpdateCompanion<UnknownFoodProduct> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('status: $status, ')
+          ..write('resolvedFoodProductId: $resolvedFoodProductId, ')
           ..write('firstSeenAt: $firstSeenAt')
           ..write(')'))
         .toString();
@@ -5485,6 +5551,7 @@ typedef $$UnknownFoodProductsTableCreateCompanionBuilder =
       Value<int> id,
       required String name,
       Value<String> status,
+      Value<int?> resolvedFoodProductId,
       required DateTime firstSeenAt,
     });
 typedef $$UnknownFoodProductsTableUpdateCompanionBuilder =
@@ -5492,6 +5559,7 @@ typedef $$UnknownFoodProductsTableUpdateCompanionBuilder =
       Value<int> id,
       Value<String> name,
       Value<String> status,
+      Value<int?> resolvedFoodProductId,
       Value<DateTime> firstSeenAt,
     });
 
@@ -5516,6 +5584,11 @@ class $$UnknownFoodProductsTableFilterComposer
 
   ColumnFilters<String> get status => $composableBuilder(
     column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get resolvedFoodProductId => $composableBuilder(
+    column: $table.resolvedFoodProductId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -5549,6 +5622,11 @@ class $$UnknownFoodProductsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get resolvedFoodProductId => $composableBuilder(
+    column: $table.resolvedFoodProductId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get firstSeenAt => $composableBuilder(
     column: $table.firstSeenAt,
     builder: (column) => ColumnOrderings(column),
@@ -5572,6 +5650,11 @@ class $$UnknownFoodProductsTableAnnotationComposer
 
   GeneratedColumn<String> get status =>
       $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<int> get resolvedFoodProductId => $composableBuilder(
+    column: $table.resolvedFoodProductId,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<DateTime> get firstSeenAt => $composableBuilder(
     column: $table.firstSeenAt,
@@ -5625,11 +5708,13 @@ class $$UnknownFoodProductsTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<String> status = const Value.absent(),
+                Value<int?> resolvedFoodProductId = const Value.absent(),
                 Value<DateTime> firstSeenAt = const Value.absent(),
               }) => UnknownFoodProductsCompanion(
                 id: id,
                 name: name,
                 status: status,
+                resolvedFoodProductId: resolvedFoodProductId,
                 firstSeenAt: firstSeenAt,
               ),
           createCompanionCallback:
@@ -5637,11 +5722,13 @@ class $$UnknownFoodProductsTableTableManager
                 Value<int> id = const Value.absent(),
                 required String name,
                 Value<String> status = const Value.absent(),
+                Value<int?> resolvedFoodProductId = const Value.absent(),
                 required DateTime firstSeenAt,
               }) => UnknownFoodProductsCompanion.insert(
                 id: id,
                 name: name,
                 status: status,
+                resolvedFoodProductId: resolvedFoodProductId,
                 firstSeenAt: firstSeenAt,
               ),
           withReferenceMapper: (p0) => p0
