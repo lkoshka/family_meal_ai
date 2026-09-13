@@ -14,7 +14,8 @@ class UsdaFoodProductSource implements FoodProductSource {
     final uri = Uri.https('api.nal.usda.gov', '/fdc/v1/foods/search', {
       'api_key': apiKey,
       'query': name,
-      'pageSize': '5',
+      'pageSize': '10',
+      'dataType': 'Foundation,SR Legacy',
     });
 
     final response = await http.get(uri);
